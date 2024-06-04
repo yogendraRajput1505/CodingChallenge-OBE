@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.Student;
+import com.example.demo.exception.StudentNotFoundException;
 import com.example.demo.repo.StudentRepository;
 
 @Service
@@ -39,9 +40,9 @@ public class StudentService {
         return studentRepository.findByStudentClass(studentClass);
     }
 
-    public Student updateStudent(Long id, Student studentDetails) throws Exception {
+    public Student updateStudent(Long id, Student studentDetails) throws StudentNotFoundException {
         Student student = studentRepository.findById(id)
-            .orElseThrow(() -> new Exception("Student not found"));
+            .orElseThrow(() -> new StudentNotFoundException("Student not found with Id : "+id));
 
         student.setName(studentDetails.getName());
         student.setDateOfBirth(studentDetails.getDateOfBirth());

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entity.Student;
+import com.example.demo.exception.StudentNotFoundException;
 import com.example.demo.service.StudentService;
 
 @RestController
@@ -42,9 +43,9 @@ public class StudentController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Student> getStudentById(@PathVariable Long id) throws Exception {
+    public ResponseEntity<Student> getStudentById(@PathVariable Long id) throws StudentNotFoundException {
         Student student = studentService.getStudentById(id)
-            .orElseThrow(() -> new Exception("Student not found"));
+            .orElseThrow(() -> new StudentNotFoundException("Student not found with id : "+id));
         return ResponseEntity.ok(student);
     }
 
